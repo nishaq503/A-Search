@@ -26,3 +26,8 @@
 *.exe
 *.out
 *.app
+
+# local files
+.vscode/*
+cmake-build-debug/*
+.idea/*
