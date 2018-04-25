@@ -41,7 +41,11 @@ void Board::neighbors ( std::vector < const Board * > *neigh , char type ) {
 }
 
 unsigned int Board::hamming () {
-    return 0;
+    unsigned int count = 0;
+    for ( unsigned int i = 0 ; i < n ; ++i )
+        if ( b[i] != i+1 )
+            ++count;
+    return count;
 }
 
 unsigned int Board::manhattan () {
