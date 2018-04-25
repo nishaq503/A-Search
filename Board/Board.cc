@@ -38,5 +38,11 @@ unsigned int Board::manhattan () {
 }
 
 unsigned int Board::inversions () {
-    return 0;
+    unsigned int count = 0;
+    for ( unsigned int i = 0 ; i < n+1 ; ++i )
+        if ( b[i] )
+            for ( unsigned int j = i ; j < n+1 ; ++j )
+                if ( b[j] && b[j] < b[i] )
+                    ++count;
+    return count;
 }
