@@ -12,8 +12,7 @@ private:
     unsigned int n;
     char type;
     unsigned int moves;
-    std::vector < std::vector < unsigned int  > > grid;
-    std::vector < std::vector < unsigned int  > > goal;
+    unsigned int *b;
 
 public:
     // default constructor (for creating an empty board)
@@ -26,7 +25,7 @@ public:
     // type: distance to be used 'm' for manhattan and 'b' for hamming
     Board ( const unsigned int *b , unsigned int n , unsigned int m , char type );
     // destructor
-    ~Board () = default;
+    ~Board () { delete [] b; }
 
     // verifies whether the board is solvable
     bool is_solvable ();
@@ -35,7 +34,7 @@ public:
     // returns in neigh a list of neighbors for this node
     void neighbors ( std::vector<const Board *> *neigh , char type );
     // gets the number of moves made so far (up to this node)
-    unsigned int get_n_moves ();
+    unsigned int get_n_moves () { return m; }
     // returns the hamming distance to the goal
     unsigned int hamming ();
     // returns the manhattan distance to the goal
