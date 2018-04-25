@@ -22,7 +22,18 @@ bool Board::is_goal () {
 }
 
 bool Board::is_solvable () {
-    return false;
+    auto l = static_cast<unsigned int>( sqrt( n + 1 ) );
+    unsigned int inv = inversions();
+    if ( l % 2 ) {
+        return inv % 2 == 0;
+    } else {
+        unsigned int loc_0;
+        for ( loc_0 = 0 ; loc_0 < n+1 ; ++loc_0 )
+            if ( ! b[loc_0] )
+                break;
+        unsigned int row_0 = loc_0 / 3 - 1;
+        return static_cast<bool>( ( inv + row_0 ) % 2 );
+    }
 }
 
 void Board::neighbors ( std::vector < const Board * > *neigh , char type ) {
