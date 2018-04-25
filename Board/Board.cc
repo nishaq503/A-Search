@@ -37,7 +37,8 @@ bool Board::is_solvable () {
 }
 
 void Board::neighbors ( std::vector < const Board * > *neigh , char type ) {
-
+    int a = 5;
+    a += 5;
 }
 
 unsigned int Board::hamming () {
