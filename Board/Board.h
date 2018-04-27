@@ -34,7 +34,7 @@ public:
     // returns in neigh a list of neighbors for this node
     void neighbors ( std::vector<const Board *> *neigh , char type );
     // gets the number of moves made so far (up to this node)
-    unsigned int get_n_moves () { return m; }
+    unsigned int get_n_moves () { return moves; }
     // returns the hamming distance to the goal
     unsigned int hamming ();
     // returns the manhattan distance to the goal

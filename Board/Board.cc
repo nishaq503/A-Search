@@ -37,7 +37,8 @@ bool Board::is_solvable () {
 }
 
 void Board::neighbors ( std::vector < const Board * > *neigh , char type ) {
-    
+    (void) neigh;
+    (void) type;
 }
 
 unsigned int Board::hamming () {
@@ -49,7 +50,16 @@ unsigned int Board::hamming () {
 }
 
 unsigned int Board::manhattan () {
-    return 0;
+    unsigned int count = 0;
+    for ( unsigned int i = 0 ; i < n+1 ; ++i ) {
+        if ( b[i] != i+1 ) {
+            int x1 = b[i] % 3 , x2 = (i+1) % 3;
+            int y1 = b[i] / 3 , y2 = (i+1) / 3;
+            auto dx = static_cast<int>(std::round( std::abs( (double)x1 - x2))) , dy = static_cast<int>(std::round( std::abs( (double)y1 - y2 )));
+            count += dx + dy;
+        }
+    }
+    return count;
 }
 
 unsigned int Board::inversions () {
