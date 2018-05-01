@@ -50,11 +50,114 @@ void Board::swap( unsigned int i , unsigned int j ) {
 
 void Board::neighbors( std::vector< Board * > *neigh , char type ) {
     neigh->clear();
-
-    std::vector< Board * > result;
     unsigned int loc_0 = locate_0( );
+    auto l = static_cast<unsigned int>(sqrt( n ));
 
-    (void) type; (void) loc_0;
+    if ( loc_0 == 0 ) {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 + 1 );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 + l );
+        neigh->push_back( temp_2 );
+    }
+    else if ( loc_0 == l - 1 ) {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 - 1 );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 + l );
+        neigh->push_back( temp_2 );
+    }
+    else if ( loc_0 == n - l ) {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 - l );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 + 1 );
+        neigh->push_back( temp_2 );
+    }
+    else if ( loc_0 == n - 1 ) {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 - 1 );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 - l );
+        neigh->push_back( temp_2 );
+    }
+    else if ( loc_0 % l == 0 ) {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 - l );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 + 1 );
+        neigh->push_back( temp_2 );
+
+        auto temp_3 = new Board( b , n , moves + 1 , type );
+        temp_3->swap( loc_0 , loc_0 + l );
+        neigh->push_back( temp_3 );
+    }
+    else if ( loc_0 % l == l - 1 ) {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 - l );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 - 1 );
+        neigh->push_back( temp_2 );
+
+        auto temp_3 = new Board( b , n , moves + 1 , type );
+        temp_3->swap( loc_0 , loc_0 + l );
+        neigh->push_back( temp_3 );
+    }
+    else if ( loc_0 / l == 0 ) {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 - 1 );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 + l );
+        neigh->push_back( temp_2 );
+
+        auto temp_3 = new Board( b , n , moves + 1 , type );
+        temp_3->swap( loc_0 , loc_0 + 1 );
+        neigh->push_back( temp_3 );
+    }
+    else if ( loc_0 / l == l - 1 ) {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 - 1 );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 - l );
+        neigh->push_back( temp_2 );
+
+        auto temp_3 = new Board( b , n , moves + 1 , type );
+        temp_3->swap( loc_0 , loc_0 + 1 );
+        neigh->push_back( temp_3 );
+    }
+    else {
+        auto temp_1 = new Board( b , n , moves + 1 , type );
+        temp_1->swap( loc_0 , loc_0 - 1 );
+        neigh->push_back( temp_1 );
+
+        auto temp_2 = new Board( b , n , moves + 1 , type );
+        temp_2->swap( loc_0 , loc_0 - l );
+        neigh->push_back( temp_2 );
+
+        auto temp_3 = new Board( b , n , moves + 1 , type );
+        temp_3->swap( loc_0 , loc_0 + 1 );
+        neigh->push_back( temp_3 );
+
+        auto temp_4 = new Board( b , n , moves + 1 , type );
+        temp_4->swap( loc_0 , loc_0 + l );
+        neigh->push_back( temp_4 );
+    }
 }
 
 unsigned int Board::hamming( ) {
