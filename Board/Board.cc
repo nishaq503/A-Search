@@ -5,17 +5,22 @@
 #include "Board.h"
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 Board::Board( const unsigned int *b , unsigned int n , unsigned int m , char type ) {
     this->n = n;
     this->type = type;
     this->moves = m;
     this->b = new unsigned int[n];
-    for ( unsigned int i = 0 ; i < n ; ++i )
+    test_vec.clear();
+    for ( unsigned int i = 0 ; i < n ; ++ i ) {
         this->b[i] = b[i];
+        test_vec.push_back( b[i] );
+    }
+    p = priority();
 }
 
-bool Board::is_goal( ) {
+bool Board::is_goal( ) const {
     for ( unsigned int i = 0 ; i < n-1 ; ++i )
         if ( b[i] != i+1 )
             return false;
@@ -30,14 +35,14 @@ unsigned int Board::locate_0( ) const {
     return loc_0;
 }
 
-bool Board::is_solvable( ) {
+bool Board::is_solvable( ) const {
     auto l = static_cast< unsigned int >( sqrt( n ) );
     unsigned int inv = inversions( );
     if ( l % 2 ) {
         return inv % 2 == 0;
     } else {
         unsigned int loc_0 = locate_0( );
-        unsigned int row_0 = loc_0 / 3 - 1;
+        unsigned int row_0 = loc_0 / 3;
         return static_cast< bool >( ( inv + row_0 ) % 2 );
     }
 }
@@ -46,6 +51,9 @@ void Board::swap( unsigned int i , unsigned int j ) {
     b[i] ^= b[j];
     b[j] ^= b[i];
     b[i] ^= b[j];
+
+    test_vec[i] = b[i];
+    test_vec[j] = b[j];
 }
 
 void Board::neighbors( std::vector< Board * > *neigh , char type ) {
@@ -160,7 +168,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
     }
 }
 
-unsigned int Board::hamming( ) {
+unsigned int Board::hamming( ) const {
     unsigned int count = 0;
     for ( unsigned int i = 0 ; i < n ; ++i )
         if ( b[i] && b[i] != i+1 )
@@ -168,12 +176,12 @@ unsigned int Board::hamming( ) {
     return count;
 }
 
-unsigned int Board::manhattan( ) {
+unsigned int Board::manhattan( ) const {
     unsigned int count = 0;
     for ( unsigned int i = 0 ; i < n ; ++i ) {
         if ( b[i] ) {
-            double dx = static_cast< int >( i % 3 ) - ( b[i] - 1 ) % 3;
-            double dy = static_cast< int >( i / 3 ) - ( b[i] - 1 ) / 3; // NOLINT
+            double dx = static_cast< int >( i % 3 ) - ( static_cast< int >( b[i] ) - 1 ) % 3;
+            double dy = static_cast< int >( i / 3 ) - ( static_cast< int >( b[i] ) - 1 ) / 3; // NOLINT
             auto diff = static_cast< int >( std::abs( dx ) + std::abs( dy ) );
             count += diff;
         }
@@ -181,12 +189,35 @@ unsigned int Board::manhattan( ) {
     return count;
 }
 
-unsigned int Board::inversions( ) {
+unsigned int Board::inversions( ) const {
     unsigned int count = 0;
     for ( unsigned int i = 0 ; i < n ; ++i )
         if ( b[i] )
             for ( unsigned int j = i ; j < n ; ++j )
-                if ( b[j] && b[j] < b[i] )
+                if ( b[j] < b[i] )
                     ++count;
     return count;
+}
+
+bool Board::equals( const Board *that ) const {
+    if ( this->n != that->n ) return false;
+
+    for (unsigned int i = 0 ; i < this->n ; ++i)
+        if ( this->b[i] != that->b[i] )
+            return false;
+    return true;
+}
+
+void Board::print() const {
+    auto l = static_cast<unsigned int>(sqrt( n ));
+    for ( unsigned int i = 0 ; i < l ; ++i ) {
+        for ( unsigned int j = 0 ; j < l ; ++j )
+            std::cout << b[l * i + j] << " ";
+        std::cout << std::endl;
+    }
+    std::cout << "hamming: " << hamming() << std::endl;
+    std::cout << "manhattan: " << manhattan() << std::endl;
+    std::cout << "moves: " << get_n_moves() << std::endl;
+    std::cout << "type: " << type << std::endl;
+    std::cout << "priority: " << priority() << std::endl << std::endl;
 }

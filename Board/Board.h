@@ -13,6 +13,8 @@ private:
     char type;
     unsigned int moves;
     unsigned int *b;
+    std::vector< unsigned int > test_vec;
+    unsigned int p;
 
     unsigned int locate_0( ) const;
     void swap( unsigned int i , unsigned int j );
@@ -31,19 +33,25 @@ public:
     ~Board( ) { delete [] b ; }
 
     // verifies whether the board is solvable
-    bool is_solvable( );
+    bool is_solvable( ) const;
     // verifies whether the board is a goal board
-    bool is_goal( );
+    bool is_goal( ) const;
     // returns in neigh a list of neighbors for this node
     void neighbors( std::vector< Board *> *neigh , char type );
     // gets the number of moves made so far (up to this node)
-    unsigned int get_n_moves( ) { return moves ; }
+    unsigned int get_n_moves( ) const { return moves ; }
     // returns the hamming distance to the goal
-    unsigned int hamming( );
+    unsigned int hamming( ) const;
     // returns the manhattan distance to the goal
-    unsigned int manhattan( );
+    unsigned int manhattan( ) const;
     // counts the number of inversions on a particular board
-    unsigned int inversions( );
+    unsigned int inversions( ) const;
+    // returns the priority of the board in the queue
+    unsigned int priority( ) const { return type == 'm' ? moves + manhattan() : moves + hamming() ; }
+    // returns weather two boards are the same
+    bool equals( const Board *that ) const;
+    // prints the board to the terminal
+    void print( ) const;
 };
 
 #endif //__BOARD_H__
