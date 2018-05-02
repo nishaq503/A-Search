@@ -7,7 +7,7 @@
 #include <set>
 #include <queue>
 #include <vector>
-#include "Board/Board.h"
+#include "board.h"
 
 struct set_compare {
     bool operator () (const Board *lhs , const Board *rhs ) const
@@ -38,6 +38,9 @@ unsigned int r_get_solution( my_set &history , my_queue &nodes , char type ) {
             unsigned int temp = i->priority();
             if ( history.find( i ) == history.end() ) {
                 nodes.push( i );
+            }
+            else {
+                delete i;
             }
         }
         
@@ -72,9 +75,9 @@ unsigned int get_solution( Board *start , char type ) {
 // -----------------------------------------------------------------------
 // this is the main solver
 // -----------------------------------------------------------------------
-// b: an initial board configuration
-// the board is just a sequence of numbers in row-major order (including the zero element)
-// n: number of elements in the board
+// b: an initial Board configuration
+// the Board is just a sequence of numbers in row-major order (including the zero element)
+// n: number of elements in the Board
 // type: distance to be used 'm' for manhattan and 'b' for hamming
 void solve( const unsigned int *b , unsigned int n , char type ) {
 
@@ -82,7 +85,7 @@ void solve( const unsigned int *b , unsigned int n , char type ) {
 
     if ( start->is_goal() ) std::cout << "Number of moves: " << 0 << std::endl;
     else if ( start->is_solvable() ) std::cout << "Number of moves: " << get_solution( start , type ) << std::endl;
-    else std::cout << "Unsolvable board" << std::endl;
+    else std::cout << "Unsolvable Board" << std::endl;
 }
 
 // -----------------------------------------------------------------------
@@ -91,8 +94,8 @@ void solve( const unsigned int *b , unsigned int n , char type ) {
 // -----------------------------------------------------------------------
 int main( int argc , char **argv ) {
     // reads the search type from a command line argument (either h or m)
-    // reads all initial board values from the stdin
-    // calls the solver passing the values of the board and the search type
+    // reads all initial Board values from the stdin
+    // calls the solver passing the values of the Board and the search type
 
     char type = argv[1][0];
 

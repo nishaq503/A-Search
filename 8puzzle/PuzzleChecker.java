@@ -3,7 +3,7 @@
  *  Execution:    java  PuzzleChecker filename1.txt filename2.txt ...
  *  Dependencies: Board.java Solver.java
  *
- *  This program creates an initial board from each filename specified
+ *  This program creates an initial Board from each filename specified
  *  on the command line and finds the minimum number of moves to
  *  reach the goal state.
  *
@@ -40,7 +40,7 @@ public class PuzzleChecker {
 
         // for each command-line argument
         for (String filename : args) {
-            // read in the board specified in the filename
+            // read in the Board specified in the filename
             In in = new In(filename);
             int n = in.readInt();
             int[][] blocks = new int[n][n];

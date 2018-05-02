@@ -42,7 +42,7 @@ public class SolverVisualizer {
     // foreground color of tile
     private static final Color TILE_FOREGROUND_COLOR = Color.BLACK;
 
-    // background color of board
+    // background color of Board
     private static final Color BOARD_COLOR = Color.LIGHT_GRAY;
 
     // text color
@@ -126,7 +126,7 @@ public class SolverVisualizer {
         // for each command-line argument
         for (String filename : args) {
 
-            // read in the board specified in the filename
+            // read in the Board specified in the filename
             In in = new In(filename);
             n = in.readInt();
             tileAt = new int[n][n];
@@ -157,11 +157,11 @@ public class SolverVisualizer {
                 totalMoves = solver.moves();
                 currentMoves = 0;
 
-                for (Board board : solver.solution()) {
-                    manhattan = board.manhattan();
+                for (Board Board : solver.solution()) {
+                    manhattan = Board.manhattan();
                     for (int row = 0; row < n; row++) {
                         for (int col = 0; col < n; col++) {
-                            int tile = board.tileAt(row, col);
+                            int tile = Board.tileAt(row, col);
                             // if this position was previously empty
                             if (tileAt[row][col] == 0)
                                 movingTile = tile; // animate the tile into it

@@ -2,7 +2,7 @@
 // Created by Najib Ishaq 4/24/18
 //
 
-#include "Board.h"
+#include "board.h"
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
@@ -220,4 +220,15 @@ void Board::print() const {
     std::cout << "moves: " << get_n_moves() << std::endl;
     std::cout << "type: " << type << std::endl;
     std::cout << "priority: " << priority() << std::endl << std::endl;
+}
+
+void Board::print_board() const {
+    // the loop below assumes that `N` is the length of your array,
+    // if you have another variable name for this, please adjust
+    // the code properly
+    // (for a 3 by 3 board, the value of N is 9)
+    // also, if you have another name for `board` just replace it below
+    for (unsigned int i = 0 ; i < n ; i ++) {
+        std::cout << b[i] << " ";
+    }
 }

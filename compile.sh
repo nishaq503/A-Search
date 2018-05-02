@@ -6,7 +6,7 @@ set -e
 # variables
 compiler=g++
 FLAGS="-Wall -Wextra -Wfatal-errors -pedantic"
-INPUTS="main.cc Board/Board.cc"
+INPUTS="main.cc board.cc"
 output="main.o"
 
 # remove current object files

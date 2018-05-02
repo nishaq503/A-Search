@@ -3,4 +3,4 @@ project ( A__Search )
 
 set ( CMAKE_CXX_STANDARD 11 )
 
-add_executable ( A__Search main.cc Board/Board.cc Board/Board.h )
+add_executable ( A__Search main.cc board.cc board.h )

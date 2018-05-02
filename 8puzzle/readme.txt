@@ -23,7 +23,7 @@ Programming Assignment 4: Slider Puzzle
 
 /******************************************************************************
  *  Explain briefly how you represented a search node
- *  (board + number of moves + previous search node).
+ *  (Board + number of moves + previous search node).
  *****************************************************************************/
 
 
@@ -36,7 +36,7 @@ Programming Assignment 4: Slider Puzzle
  *  Explain briefly how you detected unsolvable puzzles.
  *
  *  What is the order of growth of the running time of your isSolvable()
- *  method as function of the board size n? Recall that with order-of-growth
+ *  method as function of the Board size n? Recall that with order-of-growth
  *  notation, you should discard leading coefficients and lower-order terms,
  *  e.g., n log n or n^3.
 
