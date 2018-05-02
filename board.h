@@ -50,6 +50,8 @@ public:
     unsigned int priority( ) const { return type == 'm' ? moves + manhattan() : moves + hamming() ; }
     // returns weather two boards are the same
     bool equals( const Board *that ) const;
+    // returns weather a board should be ordered before or after in the set
+    bool less( const Board *that ) const;
     // prints the Board to the terminal
     void print( ) const;
     void print_board() const;

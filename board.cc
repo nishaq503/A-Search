@@ -201,12 +201,18 @@ unsigned int Board::inversions( ) const {
 }
 
 bool Board::equals( const Board *that ) const {
-    if ( this->n != that->n ) return false;
-
     for (unsigned int i = 0 ; i < this->n ; ++i)
         if ( this->b[i] != that->b[i] )
             return false;
     return true;
+}
+
+bool Board::less( const Board *that ) const {
+    for ( unsigned int i = 0 ; i < n ; ++i ) {
+        if ( this->b[i] < that->b[i] ) return true;
+        else if ( this->b[i] > that->b[i] ) return false;
+    }
+    return false;
 }
 
 void Board::print() const {
