@@ -26,7 +26,7 @@ unsigned int r_get_solution( my_set &history , my_queue &nodes , char type ) {
     Board *current = nodes.top();
     nodes.pop();
     history.insert( current );
-
+    
     if ( current->is_goal() ) {
         return current->get_n_moves();
     }
@@ -35,7 +35,6 @@ unsigned int r_get_solution( my_set &history , my_queue &nodes , char type ) {
         current->neighbors( &neigh , type );
 
         for ( auto i : neigh ) {
-            unsigned int temp = i->priority();
             if ( history.find( i ) == history.end() ) {
                 nodes.push( i );
             }
@@ -43,9 +42,6 @@ unsigned int r_get_solution( my_set &history , my_queue &nodes , char type ) {
                 delete i;
             }
         }
-        
-        neigh.clear();
-
         return r_get_solution( history , nodes , type );
     }
 }
@@ -54,7 +50,6 @@ unsigned int get_solution( Board *start , char type ) {
     my_set history;
     my_queue nodes;
 
-    history.insert( start );
     nodes.push( start );
 
     unsigned int num_moves = r_get_solution( history , nodes , type );
@@ -85,7 +80,7 @@ void solve( const unsigned int *b , unsigned int n , char type ) {
 
     if ( start->is_goal() ) std::cout << "Number of moves: " << 0 << std::endl;
     else if ( start->is_solvable() ) std::cout << "Number of moves: " << get_solution( start , type ) << std::endl;
-    else std::cout << "Unsolvable Board" << std::endl;
+    else std::cout << "Unsolvable board" << std::endl;
 }
 
 // -----------------------------------------------------------------------
@@ -97,6 +92,7 @@ int main( int argc , char **argv ) {
     // reads all initial Board values from the stdin
     // calls the solver passing the values of the Board and the search type
 
+    /*
     char type = argv[1][0];
 
     unsigned int l , temp;
@@ -111,6 +107,12 @@ int main( int argc , char **argv ) {
             b[l * i + j] = temp;
         }
     }
+    */
+    unsigned int n = 16;
+    unsigned int b[16] = {3,1,6,4,5,0,9,7,10,2,11,8,13,15,14,12};
+    char type = 'm';
+
+    (void) argc; (void) argv;
     
     solve( b , n , type );
 

@@ -42,7 +42,7 @@ bool Board::is_solvable( ) const {
         return inv % 2 == 0;
     } else {
         unsigned int loc_0 = locate_0( );
-        unsigned int row_0 = loc_0 / 3;
+        unsigned int row_0 = loc_0 / l;
         return static_cast< bool >( ( inv + row_0 ) % 2 );
     }
 }
@@ -178,10 +178,11 @@ unsigned int Board::hamming( ) const {
 
 unsigned int Board::manhattan( ) const {
     unsigned int count = 0;
+    auto l = static_cast< int >(sqrt( n ));
     for ( unsigned int i = 0 ; i < n ; ++i ) {
         if ( b[i] ) {
-            double dx = static_cast< int >( i % 3 ) - ( static_cast< int >( b[i] ) - 1 ) % 3;
-            double dy = static_cast< int >( i / 3 ) - ( static_cast< int >( b[i] ) - 1 ) / 3; // NOLINT
+            double dx = static_cast< int >( i ) % l - ( static_cast< int >( b[i] ) - 1 ) % l;
+            double dy = static_cast< int >( i ) / l - ( static_cast< int >( b[i] ) - 1 ) / l; // NOLINT
             auto diff = static_cast< int >( std::abs( dx ) + std::abs( dy ) );
             count += diff;
         }
@@ -193,8 +194,8 @@ unsigned int Board::inversions( ) const {
     unsigned int count = 0;
     for ( unsigned int i = 0 ; i < n ; ++i )
         if ( b[i] )
-            for ( unsigned int j = i ; j < n ; ++j )
-                if ( b[j] < b[i] )
+            for ( unsigned int j = i + 1 ; j < n ; ++j )
+                if ( b[j] && b[j] < b[i] )
                     ++count;
     return count;
 }
