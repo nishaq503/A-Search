@@ -31,7 +31,10 @@ unsigned int get_solution( Board *start , char type ) {
 
     nodes.push( start );
 
+    unsigned int count = 0;
     while ( ! nodes.top()->is_goal() ) { // stop when we have reached the goal
+        ++count;
+
         // pop the board with the lowest priority and add it to history
         Board *current = nodes.top();
         nodes.pop();
@@ -44,7 +47,7 @@ unsigned int get_solution( Board *start , char type ) {
         for ( auto i : neigh )
             history.find( i ) == history.end() ? nodes.push( i ) : delete i;
     }
-
+    std::cout << count << ", ";
     // get the number of moves made to solve the board.
     unsigned int num_moves = nodes.top()->get_n_moves();
 
