@@ -12,12 +12,8 @@ Board::Board( const unsigned int *b , unsigned int n , unsigned int m , char typ
     this->type = type;
     this->moves = m;
     this->b = new unsigned int[n];
-    test_vec.clear();
-    for ( unsigned int i = 0 ; i < n ; ++ i ) {
+    for ( unsigned int i = 0 ; i < n ; ++ i )
         this->b[i] = b[i];
-        test_vec.push_back( b[i] );
-    }
-    p = priority();
 }
 
 bool Board::is_goal( ) const {
@@ -51,17 +47,14 @@ void Board::swap( unsigned int i , unsigned int j ) {
     b[i] ^= b[j];
     b[j] ^= b[i];
     b[i] ^= b[j];
-
-    test_vec[i] = b[i];
-    test_vec[j] = b[j];
 }
 
-void Board::neighbors( std::vector< Board * > *neigh , char type ) {
+void Board::neighbors( std::vector< Board * > *neigh , char type ) const {
     neigh->clear();
     unsigned int loc_0 = locate_0( );
-    auto l = static_cast<unsigned int>(sqrt( n ));
+    auto l = static_cast<unsigned int>( sqrt( n ) );
 
-    if ( loc_0 == 0 ) {
+    if ( loc_0 == 0 ) { // top left corner
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 + 1 );
         neigh->push_back( temp_1 );
@@ -70,7 +63,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
         temp_2->swap( loc_0 , loc_0 + l );
         neigh->push_back( temp_2 );
     }
-    else if ( loc_0 == l - 1 ) {
+    else if ( loc_0 == l - 1 ) { // top right corner
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 - 1 );
         neigh->push_back( temp_1 );
@@ -79,7 +72,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
         temp_2->swap( loc_0 , loc_0 + l );
         neigh->push_back( temp_2 );
     }
-    else if ( loc_0 == n - l ) {
+    else if ( loc_0 == n - l ) { // bottom left corner
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 - l );
         neigh->push_back( temp_1 );
@@ -88,7 +81,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
         temp_2->swap( loc_0 , loc_0 + 1 );
         neigh->push_back( temp_2 );
     }
-    else if ( loc_0 == n - 1 ) {
+    else if ( loc_0 == n - 1 ) { // bottom right corner
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 - 1 );
         neigh->push_back( temp_1 );
@@ -97,7 +90,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
         temp_2->swap( loc_0 , loc_0 - l );
         neigh->push_back( temp_2 );
     }
-    else if ( loc_0 % l == 0 ) {
+    else if ( loc_0 % l == 0 ) { // top edge
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 - l );
         neigh->push_back( temp_1 );
@@ -110,7 +103,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
         temp_3->swap( loc_0 , loc_0 + l );
         neigh->push_back( temp_3 );
     }
-    else if ( loc_0 % l == l - 1 ) {
+    else if ( loc_0 % l == l - 1 ) { // right edge
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 - l );
         neigh->push_back( temp_1 );
@@ -123,7 +116,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
         temp_3->swap( loc_0 , loc_0 + l );
         neigh->push_back( temp_3 );
     }
-    else if ( loc_0 / l == 0 ) {
+    else if ( loc_0 / l == 0 ) { // left edge
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 - 1 );
         neigh->push_back( temp_1 );
@@ -136,7 +129,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
         temp_3->swap( loc_0 , loc_0 + 1 );
         neigh->push_back( temp_3 );
     }
-    else if ( loc_0 / l == l - 1 ) {
+    else if ( loc_0 / l == l - 1 ) { // bottom egde
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 - 1 );
         neigh->push_back( temp_1 );
@@ -149,7 +142,7 @@ void Board::neighbors( std::vector< Board * > *neigh , char type ) {
         temp_3->swap( loc_0 , loc_0 + 1 );
         neigh->push_back( temp_3 );
     }
-    else {
+    else { // center
         auto temp_1 = new Board( b , n , moves + 1 , type );
         temp_1->swap( loc_0 , loc_0 - 1 );
         neigh->push_back( temp_1 );
@@ -178,7 +171,7 @@ unsigned int Board::hamming( ) const {
 
 unsigned int Board::manhattan( ) const {
     unsigned int count = 0;
-    auto l = static_cast< int >(sqrt( n ));
+    auto l = static_cast< int >( sqrt( n ) );
     for ( unsigned int i = 0 ; i < n ; ++i ) {
         if ( b[i] ) {
             double dx = static_cast< int >( i ) % l - ( static_cast< int >( b[i] ) - 1 ) % l;
@@ -200,13 +193,6 @@ unsigned int Board::inversions( ) const {
     return count;
 }
 
-bool Board::equals( const Board *that ) const {
-    for (unsigned int i = 0 ; i < this->n ; ++i)
-        if ( this->b[i] != that->b[i] )
-            return false;
-    return true;
-}
-
 bool Board::less( const Board *that ) const {
     for ( unsigned int i = 0 ; i < n ; ++i ) {
         if ( this->b[i] < that->b[i] ) return true;
@@ -215,27 +201,7 @@ bool Board::less( const Board *that ) const {
     return false;
 }
 
-void Board::print() const {
-    auto l = static_cast<unsigned int>(sqrt( n ));
-    for ( unsigned int i = 0 ; i < l ; ++i ) {
-        for ( unsigned int j = 0 ; j < l ; ++j )
-            std::cout << b[l * i + j] << " ";
-        std::cout << std::endl;
-    }
-    std::cout << "hamming: " << hamming() << std::endl;
-    std::cout << "manhattan: " << manhattan() << std::endl;
-    std::cout << "moves: " << get_n_moves() << std::endl;
-    std::cout << "type: " << type << std::endl;
-    std::cout << "priority: " << priority() << std::endl << std::endl;
-}
-
 void Board::print_board() const {
-    // the loop below assumes that `N` is the length of your array,
-    // if you have another variable name for this, please adjust
-    // the code properly
-    // (for a 3 by 3 board, the value of N is 9)
-    // also, if you have another name for `board` just replace it below
-    for (unsigned int i = 0 ; i < n ; i ++) {
+    for (unsigned int i = 0 ; i < n ; i ++)
         std::cout << b[i] << " ";
-    }
 }

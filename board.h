@@ -13,21 +13,16 @@ private:
     char type;
     unsigned int moves;
     unsigned int *b;
-    std::vector< unsigned int > test_vec;
-    unsigned int p;
 
+    // helper function to locate the empty tile
     unsigned int locate_0( ) const;
+    // helper function to swap two tiles in the board
     void swap( unsigned int i , unsigned int j );
 
 public:
     // default constructor (for creating an empty Board)
-    Board( ) { n = 0 ; type = 'm' ; moves = 0 ; b = nullptr ; } //NOLINT
+    Board( ) { n = 0 ; type = 'm' ; moves = 0 ; b = nullptr ; }
     // full constructor
-    // b: an initial Board configuration
-    // the Board is just a sequence of numbers in row-major order (including the zero element)
-    // n: number of elements in the Board
-    // m: an initial number of moves
-    // type: distance to be used 'm' for manhattan and 'b' for hamming
     Board( const unsigned int *b , unsigned int n , unsigned int m , char type );
     // destructor
     ~Board( ) { delete [] b ; }
@@ -37,7 +32,7 @@ public:
     // verifies whether the Board is a goal Board
     bool is_goal( ) const;
     // returns in neigh a list of neighbors for this node
-    void neighbors( std::vector< Board *> *neigh , char type );
+    void neighbors( std::vector< Board *> *neigh , char type ) const;
     // gets the number of moves made so far (up to this node)
     unsigned int get_n_moves( ) const { return moves ; }
     // returns the hamming distance to the goal
@@ -48,13 +43,10 @@ public:
     unsigned int inversions( ) const;
     // returns the priority of the Board in the queue
     unsigned int priority( ) const { return type == 'm' ? moves + manhattan() : moves + hamming() ; }
-    // returns weather two boards are the same
-    bool equals( const Board *that ) const;
     // returns weather a board should be ordered before or after in the set
     bool less( const Board *that ) const;
     // prints the Board to the terminal
-    void print( ) const;
     void print_board() const;
 };
 
-#endif //__BOARD_H__
+#endif // __BOARD_H__
