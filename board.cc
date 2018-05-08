@@ -169,6 +169,14 @@ unsigned int Board::hamming( ) const {
     return count;
 }
 
+unsigned int Board::hamming( const Board *that ) const {
+    unsigned int count = 0;
+    for ( unsigned int i = 0 ; i < n ; ++i )
+        if ( this->b[i] && this->b[i] != that->b[i] )
+            ++count;
+    return count;
+}
+
 unsigned int Board::manhattan( ) const {
     unsigned int count = 0;
     auto l = static_cast< int >( sqrt( n ) );
@@ -181,6 +189,30 @@ unsigned int Board::manhattan( ) const {
         }
     }
     return count;
+}
+
+unsigned int Board::manhattan( const Board *that ) const {
+    std::vector< double > dx( this->n ) , dy( this->n );
+    auto l = static_cast< int >( sqrt( n ) );
+    for ( unsigned int i = 0 ; i < this->n ; ++i ) {
+        if ( this->b[i] ) {
+            dx[ this->b[i] ] = static_cast< int >( i ) % l - ( static_cast< int >( this->b[i] ) - 1 ) % l;
+            dy[ this->b[i] ] = static_cast< int >( i ) / l - ( static_cast< int >( this->b[i] ) - 1 ) / l; // NOLINT
+        }
+    }
+
+    for ( unsigned int i = 0 ; i < that->n ; ++i ) {
+        if ( that->b[i] ) {
+            dx[ that->b[i] ] -= static_cast< int >( i ) % l - ( static_cast< int >( that->b[i] ) - 1 ) % l;
+            dy[ that->b[i] ] -= static_cast< int >( i ) / l - ( static_cast< int >( that->b[i] ) - 1 ) / l; // NOLINT
+        }
+    }
+
+    unsigned int result = 0;
+    for ( unsigned int i = 1 ; i < dx.size() ; ++i )
+        result += static_cast< unsigned int >( std::abs( dx[i] ) + std::abs( dy[i] ) );
+
+    return result;
 }
 
 unsigned int Board::inversions( ) const {
@@ -204,4 +236,44 @@ bool Board::less( const Board *that ) const {
 void Board::print_board() const {
     for (unsigned int i = 0 ; i < n ; i ++)
         std::cout << b[i] << " ";
+}
+
+bool Board::equals( const Board *that ) const {
+    for ( unsigned int i = 0 ; i < n ; ++i )
+        if ( this->b[i] != that->b[i] )
+            return false;
+    return true;
+}
+
+pair::pair( const Board *start , const Board *stop ) {
+    this->start = new Board( start->b , start->n , start->moves , start->type );
+    this->stop = new Board( stop->b , stop->n , stop->moves , stop->type );
+    this->type = start->type;
+    this->priority = this->type == 'm'
+                     ? start->moves + stop->moves + start->manhattan( stop )
+                     : start->moves + stop->moves + start->hamming( stop );
+}
+
+pair::~pair() {
+    delete start;
+    delete stop;
+}
+
+void pair::print() const {
+    auto l = static_cast< unsigned int >( sqrt ( start->n ) );
+    for ( unsigned int i = 0 ; i < l ; ++i ) {
+        for ( unsigned int j = 0 ; j < l ; ++j )
+            std::cout << start->b[l * i + j] << " ";
+        std::cout << "    ";
+        for ( unsigned int j = 0 ; j < l ; ++j )
+            std::cout << stop->b[l * i + j] << " ";
+        std::cout << std::endl;
+    }
+    std::cout << "history: " << start->moves << ", future: " << stop->moves << std::endl;
+    //std::cout << "start hamming: " << start->hamming() << ", stop hamming: " << stop->hamming() << std::endl;
+    //std::cout << "diff hamming: " << start->hamming( stop ) << std::endl;
+    std::cout << "start manhattan: " << start->manhattan() << ", stop manhattan: " << stop->manhattan() << std::endl;
+    std::cout << "diff manhattan: " << start->manhattan( stop ) << std::endl;
+    std::cout << "start priority: " << start->priority() << ", stop priority: " << stop->priority() << std::endl;
+    std::cout << "diff priority: " << this->priority << std::endl << std::endl;
 }

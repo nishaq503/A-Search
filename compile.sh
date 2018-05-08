@@ -13,6 +13,6 @@ output="main.o"
 rm -f *.o
 
 # compile
-$compiler -g -std=c++11 $FLAGS $INPUTS -o $output
+$compiler -Ofast -std=c++11 $FLAGS $INPUTS -o $output
 
 # Done
